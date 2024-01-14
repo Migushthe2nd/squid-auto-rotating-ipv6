@@ -13,6 +13,6 @@ services:
       - ./extend-config.example.conf:/etc/squid/extend-config.conf
     environment:
       - ADDRESS_GENERATION_INTERVAL_SECONDS=60 #default
-      - IPV6_SUBNET="2001:db8:0:1::/64"
       - ADDRESS_COUNT=100 #default
+      - IPV6_SUBNET="2001:db8:0:1::/64"
 ```
