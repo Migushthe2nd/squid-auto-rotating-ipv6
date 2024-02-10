@@ -13,8 +13,8 @@ generate_random_ipv6() {
     local subnet_size=$(echo $subnet | awk -F/ '{print $2}')
     local subnet_prefix=$(echo $subnet | awk -F/ '{print $1}')
     # write out the address in full
-    local subnet_prefix_padded=$(ipv6calc --in ipv6addr --out ifinet6 $subnet_prefix)
-    read -r subnet_prefix_colonless _size <<< "$subnet_prefix_padded"
+    local subnet_prefix_padded=$(ipcalc --all-info "$subnet_prefix" | grep "Full Address:" | sed -r 's/Full Address:\s+//')
+    local subnet_prefix_colonless=$(echo $subnet_prefix_padded | sed -E 's/://g')
     #  to uppercase
     local subnet_prefix_colonless_uppercase=$(echo $subnet_prefix_colonless | tr '[:lower:]' '[:upper:]')
     #    convert to binary
@@ -35,11 +35,6 @@ generate_random_ipv6() {
     ipv6=${ipv6%:}
     echo $ipv6
 }
-
-echo "include /etc/squid/ip-list.conf" >> /etc/squid/squid.conf
-if [ -f /etc/squid/extend-config.conf ]; then
-    echo "include /etc/squid/extend-config.conf" >> /etc/squid/squid.conf
-fi
 
 generate_addresses() {
     touch /etc/squid/ip-list.conf
