@@ -19,7 +19,7 @@ generate_random_ipv6() {
     local subnet_prefix_colonless_uppercase=$(echo $subnet_prefix_colonless | tr '[:lower:]' '[:upper:]')
     #    convert to binary
     local prefix_binary=$(echo "obase=2; ibase=16; $subnet_prefix_colonless_uppercase" | bc)
-    local prefix_trimmed_binary=$(echo $prefix_binary | sed -r "s/^.{$subnet_size}//")
+    local prefix_trimmed_binary=$(echo $prefix_binary | sed -r "s/.{$subnet_size}$//")
 
     local bits_required=$((128-$subnet_size))
     local generated_binary=""
