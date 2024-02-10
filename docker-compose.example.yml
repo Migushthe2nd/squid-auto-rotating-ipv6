@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /path/to/appdata/config:/config
+    ports:
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+
+  squid-auto-rotating-ipv6:
+    build: .
+    network_mode: "host"
+    volumes:
+      - ./extend-config.example.conf:/etc/squid/extend-config.conf
+    environment:
+      - ADDRESS_GENERATION_INTERVAL_SECONDS=60 #default
+      - ADDRESS_COUNT=100 #default
+      - IPV6_SUBNET="2001:db8:0:1::/64"
+    depends_on:
+      - wireguard
