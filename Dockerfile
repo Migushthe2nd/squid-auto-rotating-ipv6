@@ -1,7 +1,7 @@
-FROM debian:trixie-slim
+FROM lscr.io/linuxserver/wireguard:latest
 
 # Install Squid
-RUN apt-get update && apt-get install -y squid bc ipv6calc
+RUN apk add squid bc ipcalc
 
 # Copy the shell script to generate Squid config
 COPY generate-squid-config.sh /generate-squid-config.sh
