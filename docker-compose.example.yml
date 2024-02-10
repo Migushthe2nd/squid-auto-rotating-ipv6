@@ -26,6 +26,6 @@ services:
     environment:
       - ADDRESS_GENERATION_INTERVAL_SECONDS=60 #default
       - ADDRESS_COUNT=100 #default
-      - IPV6_SUBNET="2001:db8:0:1::/64"
+      - IPV6_SUBNET=2001:db8:0:1::/64
     depends_on:
       - wireguard
